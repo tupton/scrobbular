@@ -187,23 +187,36 @@ class LastfmApi(object):
         text = response.read()
         return text
 
-    def scrobble(self, artist, track, duration):
+    def scrobble(self, artist, track, duration, album=None):
         """Submit a track to Last.fm for the given username and password"""
 
         session_key = self._get_session_key()
-        params = self._add_api_signature_to_params(dict({'method': 'track.scrobble',
+        params = dict({'method': 'track.scrobble',
             'track': track, 'artist': artist, 'duration': duration,
             'timestamp': int(time.time() - duration), 
-            'api_key': self.API_KEY, 'sk': session_key}))
+            'api_key': self.API_KEY, 'sk': session_key})
+
+        if album is not None:
+            params['album'] = album
+
+        params = self._add_api_signature_to_params(params)
         self._send_request(self._build_request_url(params, post=True))
 
-    def update_now_playing(self, artist, track, duration):
+    def update_now_playing(self, artist, track, duration=None, album=None):
         """Submit a track to Last.fm to update the now playing status"""
 
         session_key = self._get_session_key()
-        params = self._add_api_signature_to_params(dict({'method': 'track.updatenowplaying',
+        params = dict({'method': 'track.updatenowplaying',
             'track': track, 'artist': artist,
-            'api_key': self.API_KEY, 'sk': session_key}))
+            'api_key': self.API_KEY, 'sk': session_key})
+
+        if duration is not None:
+            params['duration'] = duration
+
+        if album is not None:
+            params['album'] = album
+
+        params = self._add_api_signature_to_params(params)
         self._send_request(self._build_request_url(params, post=True))
 
 def create_arg_parser():
@@ -215,9 +228,11 @@ def create_arg_parser():
             help='the name of the track to submit')
     parser.add_argument('artist', action='store',
             help='the artist of the track to submit')
-    parser.add_argument('-p', '--now-playing', action='store_true',
+    parser.add_argument('--now-playing', action='store_true',
             help='if this option is given, the track is submitted as a now playing update instead of being scrobbled')
-    parser.add_argument('--track-duration', action='store', type=int,
+    parser.add_argument('--album', action='store', default=None,
+            help='the album that the track appears on')
+    parser.add_argument('--duration', action='store', type=int, default=None,
             help='the duration of the track')
 
     parser.add_argument('--config', type=file, default=open(os.environ['HOME'] + '/.pylastfm.conf', 'r'),
@@ -242,9 +257,9 @@ def main(argv):
 
     api = LastfmApi(username)
     if not args.now_playing:
-        api.scrobble(args.artist, args.track, args.track_duration)
+        api.scrobble(args.artist, args.track, args.duration, args.album)
     else:
-        api.update_now_playing(args.artist, args.track, args.track_duration)
+        api.update_now_playing(args.artist, args.track, args.duration, args.album)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

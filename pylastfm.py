@@ -75,7 +75,8 @@ class LastfmApi(object):
 
     def _build_param_string(self, params):
         """Build a param string from the given dictionary of params"""
-        return urllib.urlencode([(k, v) for k,v in params.iteritems()])
+        encoded = urllib.urlencode([(k, v) for k,v in params.iteritems()])
+        return encoded
 
     def _build_url(self, base, params, post=False):
         """Build a request URL"""
@@ -158,7 +159,8 @@ class LastfmApi(object):
 
     def _send_request(self, url):
         response = urllib2.urlopen(url)
-        return response.read()
+        text = response.read()
+        return text
 
     def scrobble(self, artist, track, duration):
         """Submit a track to lastfm for the given username and password"""

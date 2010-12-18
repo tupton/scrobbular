@@ -14,22 +14,28 @@ import xml.dom.minidom
 
 class LastfmSessionDb(object):
     """An interface to the Last.fm session database"""
+
     def __init__(self):
         self.conn = None
 
     def _get_connection(self):
+        """Get the connection, making one if necessary"""
+
         if (self.conn is None):
             self.conn = sqlite3.connect('/usr/local/share/pylastfm/sqlite3/session.db')
 
         return self.conn
 
     def _get_cursor(self):
-        conn = self.get_connection()
+        """Get the cursor from the connection"""
+
+        conn = self._get_connection()
 
         return conn.cursor()
 
     def get_session_key(self, username):
         """Fetch the session key from the db"""
+
         c = self._get_cursor()
         params = (username.lower(), )
         c.execute("select session from lastfm_session where username = ? limit 1", params)
@@ -45,6 +51,7 @@ class LastfmSessionDb(object):
 
     def set_session_key(self, username, session_key):
         """Put the session key in the db"""
+
         conn = self._get_connection()
         c = conn.cursor()
         params = (username.lower(), session_key, )

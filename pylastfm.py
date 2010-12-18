@@ -1,14 +1,15 @@
 #! /usr/bin/env python
-import sys
-import os
 import argparse
 import ConfigParser
-import lastfm
+import hashlib
+import os
 import sqlite3
+import sys
+import time
+import urllib
+import urllib2
 import webbrowser
-
-API_KEY = "24ff1477a4127b410d1f0b660c3049ee"
-API_SECRET = "3f5fd072347bce672b2f2e91a8ce3007"
+import xml.dom.minidom
 
 class LastfmSessionDb(object):
     """An interface to the lastfm session database"""
@@ -28,19 +29,153 @@ class LastfmSessionDb(object):
     def get_session_key(self, username):
         """Fetch the session key from the db"""
         c = self.get_cursor()
-        u = (username, )
-        c.execute("select session from lastfm_session where username = ? limit 1", u)
+        params = (username.lower(), )
+        c.execute("select session from lastfm_session where username = ? limit 1", params)
+
+        session_key = None
         row = c.fetchone()
-        # TODO
+        if row is not None:
+            session_key = row[0]
+
         c.close()
+
+        return session_key
 
     def set_session_key(self, username, session_key):
         """Put the session key in the db"""
-        c = db.get_cursor()
-        c.execute("insert (username, session_key) into lastfm_session values (?, ?)", username, session_key)
-        c.commit()
+        conn = self.get_connection()
+        c = conn.cursor()
+        params = (username.lower(), session_key, )
+        c.execute("insert or replace into lastfm_session values (?, ?)", params)
+        conn.commit()
         c.close()
 
+class LastfmApi(object):
+    """An interface to the Lastfm API"""
+
+    API_URL = "http://ws.audioscrobbler.com/2.0/"
+    API_KEY = "24ff1477a4127b410d1f0b660c3049ee"
+    API_SECRET = "3f5fd072347bce672b2f2e91a8ce3007"
+    AUTH_URL = "http://www.last.fm/api/auth/"
+
+    def __init__(self, username):
+        self.username = username
+
+    def _add_api_signature_to_params(self, params):
+        """docstring for _add_api_signature_to_params"""
+        api_sig = self._get_api_signature(params)
+        params['api_sig'] = api_sig
+        return params
+
+    def _build_auth_url(self, params, post=False):
+        return self._build_url(self.AUTH_URL, params, post)
+
+    def _build_request_url(self, params, post=False):
+        return self._build_url(self.API_URL, params, post)
+
+    def _build_param_string(self, params):
+        """Build a param string from the given dictionary of params"""
+        return urllib.urlencode([(k, v) for k,v in params.iteritems()])
+
+    def _build_url(self, base, params, post=False):
+        """Build a request URL"""
+        param_string = self._build_param_string(params)
+
+        if post is True:
+            url = urllib2.Request(url=base, data=param_string)
+        else:
+            url = base + '?' + self._build_param_string(params)
+
+        return url
+
+    def _get_api_signature(self, params):
+        """get the api signature for the given parameters"""
+        keys = params.keys()
+        keys.sort()
+        sort = [(k, params.get(k)) for k in keys]
+        to_hash = "".join(["" + k + str(v) for k,v in sort])
+        to_hash = to_hash + self.API_SECRET
+        md5 = hashlib.md5()
+        md5.update(to_hash)
+        return md5.hexdigest()
+
+    def _handle_session_key_response(self, response):
+        """Get a session key from a response"""
+        dom = xml.dom.minidom.parseString(response)
+        lfm = dom.getElementsByTagName('lfm')[0]
+        if lfm.getAttribute('status').lower() == 'ok':
+            session = lfm.getElementsByTagName('session')[0]
+            session_key_tag = session.getElementsByTagName('key')[0]
+            session_key = self._get_xml_text(session_key_tag.childNodes)
+            return session_key
+        else:
+            print dom.toprettyxml()
+            raise Exception('Bad response from Last.fm')
+
+    def _handle_token_response(self, response):
+        """Get a token from the given response"""
+        dom = xml.dom.minidom.parseString(response)
+        lfm = dom.getElementsByTagName('lfm')[0]
+        if lfm.getAttribute('status').lower() == 'ok':
+            token_tag = lfm.getElementsByTagName('token')[0]
+            token = self._get_xml_text(token_tag.childNodes)
+            return token
+        else:
+            print dom.toprettyxml()
+            raise Exception('Bad response from Last.fm')
+
+    def _get_xml_text(self, nodelist):
+        rc = []
+        for node in nodelist:
+            if node.nodeType == node.TEXT_NODE:
+                rc.append(node.data)
+        return ''.join(rc)
+
+    def _get_request_token(self):
+        """Get a Last.fm request token"""
+        params = dict({'method': 'auth.gettoken', 'api_key': self.API_KEY})
+        response = self._send_request(self._build_request_url(params))
+        return self._handle_token_response(response)
+
+    def _get_session_key(self):
+        """Get the session key for a user"""
+        username = self.username
+        db = LastfmSessionDb()
+        session_key = db.get_session_key(username)
+        if session_key is None:
+            token = self._get_request_token()
+            params = dict({'api_key': self.API_KEY, 'token': token})
+            webbrowser.open_new(self._build_auth_url(params)) # Open a browser and ask for authentication
+            raw_input('press <ENTER> after giving permission')
+
+            params = self._add_api_signature_to_params(dict({'method': 'auth.getsession',
+                'api_key': self.API_KEY, 'token': token}))
+            session_key = self._handle_session_key_response(self._send_request(self._build_request_url(params)))
+
+            db.set_session_key(username, session_key)
+
+        return session_key
+
+    def _send_request(self, url):
+        response = urllib2.urlopen(url)
+        return response.read()
+
+    def scrobble(self, artist, track, duration):
+        """Submit a track to lastfm for the given username and password"""
+        session_key = self._get_session_key()
+        params = self._add_api_signature_to_params(dict({'method': 'track.scrobble',
+            'track': track, 'artist': artist, 'duration': duration,
+            'timestamp': int(time.time() - duration), 
+            'api_key': self.API_KEY, 'sk': session_key}))
+        self._send_request(self._build_request_url(params, post=True))
+
+    def update_now_playing(self, artist, track, duration):
+        """Submit a track to lastfm to update the now playing status"""
+        session_key = self._get_session_key()
+        params = self._add_api_signature_to_params(dict({'method': 'track.updatenowplaying',
+            'track': track, 'artist': artist, 'duration': duration,
+            'api_key': self.API_KEY, 'sk': session_key}))
+        self._send_request(self._build_request_url(params, post=True))
 
 def create_arg_parser():
     """Create an option parser for last.fm-specific options"""
@@ -53,6 +188,8 @@ def create_arg_parser():
             help='the artist of the track to submit')
     parser.add_argument('-p', '--now-playing', action='store_true',
             help='if this option is given, the track is submitted as a now playing update instead of being scrobbled')
+    parser.add_argument('--track-duration', action='store', type=int,
+            help='the duration of the track')
 
     parser.add_argument('--config', type=file, default=open(os.environ['HOME'] + '/.pylastfm.conf', 'r'),
             help='the config to use instead of %(default)s')
@@ -68,34 +205,17 @@ def get_credentials(config):
 
     return username
 
-def get_session_key(username):
-    """Get the session key for a user"""
-    db = LastfmSessionDb()
-    session_key = db.get_session_key(username)
-    if session_key is None:
-        api = lastfm.Api(API_KEY, API_SECRET)
-        webbrowser.open_new(api.auth_url) # Open a browser and ask for authentication
-        raw_input('press <ENTER> after giving permission')
-        api.set_session_key()
-        session_key = api.session_key
-
-    return session_key
-
-def submit_to_lastfm(username, artist, track, now_playing=False):
-    """Submit a track to lastfm for the given username and password"""
-    session_key = get_session_key(username)
-    api = lastfm.Api(API_KEY, API_SECRET, session_key)
-
-    user = api.get_authenticated_user()
-    print user
-
 def main(argv):
     parser = create_arg_parser()
     args = parser.parse_args()
 
     username = get_credentials(args.config) 
 
-    submit_to_lastfm(username, args.artist, args.track, args.now_playing)
+    api = LastfmApi(username)
+    if not args.now_playing:
+        api.scrobble(args.artist, args.track, args.track_duration)
+    else:
+        api.update_now_playing(args.artist, args.track, args.track_duration)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

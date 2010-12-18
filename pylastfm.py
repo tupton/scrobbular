@@ -173,7 +173,7 @@ class LastfmApi(object):
         """Submit a track to lastfm to update the now playing status"""
         session_key = self._get_session_key()
         params = self._add_api_signature_to_params(dict({'method': 'track.updatenowplaying',
-            'track': track, 'artist': artist, 'duration': duration,
+            'track': track, 'artist': artist,
             'api_key': self.API_KEY, 'sk': session_key}))
         self._send_request(self._build_request_url(params, post=True))
 

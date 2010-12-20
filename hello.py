@@ -5,7 +5,8 @@ import pages
 
 application = webapp.WSGIApplication(
                                      [('/', pages.IndexPage),
-                                      ('/submit', pages.SubmitPage)],
+                                      ('/submit', pages.SubmitPage),
+                                      ('/user.*', pages.UserPage)],
                                      debug=True)
 
 def main():

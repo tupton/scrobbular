@@ -6,11 +6,12 @@ body {
 
 #content {
     width: 75%
+    clear: both;
 }
 
 .section {
     border: 1px solid #ccc;
-    margin: 5px;
+    margin: 5px 0;
     padding: 0;
     background: #33f;
 }
@@ -31,4 +32,25 @@ body {
 
 #authenticate {
     float: right;
+}
+
+/* Header/Footer */
+#header,
+#footer {
+    border-bottom: 1px solid #ccc;
+    padding: 5px 25px;
+    background-color: #aaa;
+}
+
+#header {
+    margin-bottom: 10px;
+}
+
+#footer {
+    margin-top: 10px;
+}
+
+/* Utility */
+.clear {
+    clear: both;
 }

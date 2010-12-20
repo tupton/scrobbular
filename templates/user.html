@@ -1,0 +1,4 @@
+{% include "header.html" %}
+        <h1>User page for {{ username }}</h1>
+        <p>User {{ username }} is {% if not session_key %} not {% endif %} authenticated with Last.fm</p>
+{% include "footer.html" %}

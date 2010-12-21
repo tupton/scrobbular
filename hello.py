@@ -6,6 +6,7 @@ import pages
 application = webapp.WSGIApplication(
                                      [('/', pages.IndexPage),
                                       ('/submit', pages.SubmitPage),
+                                      ('/scrobble', pages.ScrobblePage),
                                       ('/user.*', pages.UserPage)],
                                      debug=True)
 

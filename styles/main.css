@@ -50,7 +50,35 @@ body {
     margin-top: 10px;
 }
 
+/* Submit */
+
+#session-info {
+    padding: 15px;
+    margin-top: 10px;
+}
+
 /* Utility */
 .clear {
     clear: both;
+}
+
+.success {
+    background-color: #afa;
+}
+
+.user-status .username {
+    font-size: 2em;
+}
+
+.auth-status {
+    color: #ff9;
+    padding: 0 3px;
+}
+
+.no-auth {
+    background-color: red;
+}
+
+.auth {
+    background-color: green;
 }

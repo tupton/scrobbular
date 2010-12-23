@@ -6,29 +6,38 @@ from google.appengine.ext.webapp import template
 
 class ScrobblePage(webapp.RequestHandler):
     """Handle requests to scrobble a track"""
+    required_params = ['user', 'artist', 'track', 'duration']
+    optional_params = ['album']
 
     def post(self):
+        params = self.get_params()
+
+        if not params:
+            return
+
+        self.response.out.write(cgi.escape("\n".join([k + '=' + v for (k,v) in params.iteritems()])))
+
+        scrobble.scrobble(params['user'], params['track'], params['artist'], params['duration'], params['album'])
+        
+    def get_params(self):
+        """Get the parameters after verifying them"""
         # Required parameters
-        required_params = ['user', 'artist', 'track', 'duration']
         required = dict()
-        for r in required_params:
+        for r in self.required_params:
             required[r] = self.request.get(r)
 
         # Optional parameters
-        optional_params = ['album']
         optional = dict()
-        for o in optional_params:
+        for o in self.optional_params:
             optional[o] = self.request.get(o) 
 
         if not required['user'] or not required['artist'] or not required['track'] or not required['duration']:
-            # TODO set error code for not enough args
             self.response.set_status(400)
-            required_arguments = "\n".join([a + '=' + self.request.get(a) for a in required_params])
-            optional_arguments = "\n".join([a + '=' + self.request.get(a) if a not in required_params else '' for a in self.request.arguments()])
+            required_arguments = "\n".join([a + '=' + self.request.get(a) for a in self.required_params])
+            optional_arguments = "\n".join([a + '=' + self.request.get(a) for a in self.optional_params])
 
             self.response.out.write(cgi.escape("Incorrect arguments were supplied:" +
                 "\n\nRequired:\n" + required_arguments + "\n\nOptional:\n" + optional_arguments))
-            return
+            return None
 
-        self.response.out.write('You gave me everything I wanted')
-        
+        return dict([[a, self.request.get(a)] for a in self.request.arguments()])

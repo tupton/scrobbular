@@ -151,7 +151,7 @@ class LastfmApi(object):
             'timestamp': int(time.time() - int(duration)), 
             'api_key': self.API_KEY, 'sk': session_key})
 
-        if album is not None:
+        if album:
             params['album'] = album
 
         params = self._add_api_signature_to_params(params)
@@ -169,10 +169,10 @@ class LastfmApi(object):
             'track': track, 'artist': artist,
             'api_key': self.API_KEY, 'sk': session_key})
 
-        if duration is not None:
+        if duration:
             params['duration'] = duration
 
-        if album is not None:
+        if album:
             params['album'] = album
 
         params = self._add_api_signature_to_params(params)

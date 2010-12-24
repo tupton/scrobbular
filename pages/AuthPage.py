@@ -7,7 +7,7 @@ from google.appengine.ext.webapp import template
 
 class AuthPage(webapp.RequestHandler):
     def post(self):
-        username = self.request.get('username', None)
+        username = self.request.get('username')
         session_key = scrobble.get_session_key(username)
         if session_key is None:
             api = scrobble.LastfmApi(username)

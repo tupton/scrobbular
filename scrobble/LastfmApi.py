@@ -108,7 +108,7 @@ class LastfmApi(object):
         """Get the session key for a user"""
 
         username = self.username
-        session_key = scrobble.get_session_key(username)
+        session_key = get_session_key(username)
 
         return session_key
 
@@ -134,7 +134,7 @@ class LastfmApi(object):
             'api_key': self.API_KEY, 'token': token}))
         session_key = self._handle_session_key_response(self._send_request(self._build_request_url(params)))
 
-        scrobble.put_session_key(self.username, session_key)
+        put_session_key(self.username, session_key)
 
         return session_key
 

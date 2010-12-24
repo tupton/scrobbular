@@ -8,7 +8,14 @@
     <title>Scrobbular!</title>
     {% endif%}
     
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.2.0/build/cssreset/reset-min.css">
     <link rel="stylesheet" href="/styles/main.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="/styles/skeleton.css" type="text/css" media="screen" charset="utf-8">
+    {% if styles %}
+        {% for style in styles %}
+            <link rel="stylesheet" href="/styles/{{ style }}.css" type="text/css" media="screen" charset="utf-8">
+        {% endfor %}
+    {% endif %}
 </head>
 <body>
     <div id="header">

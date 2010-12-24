@@ -19,9 +19,9 @@ class AuthPage(webapp.RequestHandler):
     def get(self):
         username = self.response.get('username')
         token = self.response.get('token')
-        if user and token:
+        if username and token:
             api = scrobble.LastfmApi(username)
-            session_key = api.create_and_session_key(token)
+            session_key = api.create_and_set_session_key(token)
             # TODO
             self.response.out.write('session key set for ' + username + ': ' + session_key)
 

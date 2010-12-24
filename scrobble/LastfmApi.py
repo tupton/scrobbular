@@ -122,7 +122,7 @@ class LastfmApi(object):
         """Get a Last.fm request token"""
 
         host = os.environ['HTTP_HOST'] if os.environ.get('HTTP_HOST') else os.environ['SERVER_NAME']
-        params = dict({'cb': 'http://' + host + '?user=' + self.username, 'api_key': self.API_KEY})
+        params = dict({'cb': 'http://' + host + '/auth?username=' + self.username, 'api_key': self.API_KEY})
         url = self._build_auth_url(params)
         return url
 

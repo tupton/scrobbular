@@ -1,60 +1,17 @@
+html {
+    height: 100%;
+}
+
 body {
+    height: 100%;
     color: #333;
     background: #fff;
     font-family: sans-serif;
 }
 
-#content {
-    width: 75%
-    clear: both;
-}
-
-.section {
-    border: 1px solid #ccc;
-    margin: 5px 0;
-    padding: 0;
-    background: #33f;
-}
-
-.section h2 a {
-    padding: 15px;
-}
-
-.section h2 a,
-.section h2 a:hover {
-    color: #fff;
-    text-decoration: none;
-}
-
-#download {
-    float: left;
-}
-
-#authenticate {
-    float: right;
-}
-
-/* Header/Footer */
-#header,
-#footer {
-    border-bottom: 1px solid #ccc;
-    padding: 5px 25px;
-    background-color: #aaa;
-}
-
-#header {
-    margin-bottom: 10px;
-}
-
-#footer {
-    margin-top: 10px;
-}
-
-/* Submit */
-
-#session-info {
-    padding: 15px;
-    margin-top: 10px;
+h1 {
+    font-size: 2em;
+    font-weight: bold;
 }
 
 /* Utility */
@@ -66,19 +23,3 @@ body {
     background-color: #afa;
 }
 
-.user-status .username {
-    font-size: 2em;
-}
-
-.auth-status {
-    color: #ff9;
-    padding: 0 3px;
-}
-
-.no-auth {
-    background-color: red;
-}
-
-.auth {
-    background-color: green;
-}

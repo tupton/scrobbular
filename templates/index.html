@@ -1,6 +1,19 @@
 {% include "header.html" %}
-    <form action="/auth" method="post">
-        <label for="username">Last.fm Username:</label><input type="text" name="username" value="">
-        <input type="submit">
-    </form>
+    <div id="authenticate">
+        <form action="/auth" method="post">
+            <div class="label">
+                <label for="username">Last.fm username:</label>
+            </div>
+            <div class="input">
+                <input type="text" name="username" id="username" value="">
+                <input type="submit" id="submit" value="Authenticate">
+            </div>
+        </form>
+    </div>
+    <div id="about">
+        <h2>What is Scrobbular?</h2>
+        <p><span class="app">Scrobbular</span> makes it easy to scrobble songs to Last.fm from any application.</p>
+        <p>First, you need to allow <span class="app">Scrobbular</span> to scrobble songs in your name. Enter your Last.fm username and click Authenticate.
+        You will be taken to a Last.fm page that allows you to give the necessary permission to Last.fm. If you are not logged in to Last.fm, you will be asked to log in first.</p>
+    </div>
 {% include "footer.html" %}

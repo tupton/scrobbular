@@ -1,0 +1,23 @@
+#authenticate {
+    margin-left: 2em; 
+    font-size: 2em;
+    margin: 3em auto;
+    width: 600px;
+}
+
+.label {
+    padding-right: 5px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+#username {
+    width: 300px;
+}
+
+#submit {
+    background-color: #ccc;
+    color: #333;
+    width 250px;
+    padding: 0 10px;
+}

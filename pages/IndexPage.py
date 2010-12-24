@@ -5,5 +5,5 @@ from google.appengine.ext.webapp import template
 
 class IndexPage(webapp.RequestHandler):
     def get(self):
-        self.response.out.write(template.render('templates/index.html', {}))
+        self.response.out.write(template.render('templates/index.html', {'styles': ['index']}))
 

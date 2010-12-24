@@ -148,7 +148,7 @@ class LastfmApi(object):
 
         params = dict({'method': 'track.scrobble',
             'track': track, 'artist': artist, 'duration': duration,
-            'timestamp': int(time.time() - duration), 
+            'timestamp': int(time.time() - int(duration)), 
             'api_key': self.API_KEY, 'sk': session_key})
 
         if album is not None:

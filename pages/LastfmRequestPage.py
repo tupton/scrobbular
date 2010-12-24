@@ -12,11 +12,6 @@ class LastfmRequestPage(webapp.RequestHandler):
         for r in self.required_params:
             required[r] = self.request.get(r)
 
-        # Optional parameters
-        optional = dict()
-        for o in self.optional_params:
-            optional[o] = self.request.get(o) 
-
         for param in self.required_params:
             if not required[param]:
                 self.response.set_status(400)
@@ -27,5 +22,13 @@ class LastfmRequestPage(webapp.RequestHandler):
                     "\n\nRequired:\n" + required_arguments + "\n\nOptional:\n" + optional_arguments))
                 return None
 
-        return dict([[a, self.request.get(a)] for a in self.request.arguments()])
+        # Optional parameters
+        optional = dict()
+        for o in self.optional_params:
+            optional[o] = self.request.get(o) 
+
+        params = required
+        params.update(optional)
+
+        return params
         

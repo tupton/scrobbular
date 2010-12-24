@@ -1,3 +1,5 @@
+import cgi
+
 from google.appengine.ext import webapp
 
 class LastfmRequestPage(webapp.RequestHandler):

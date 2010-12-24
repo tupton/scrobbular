@@ -7,6 +7,7 @@ application = webapp.WSGIApplication(
                                      [('/', pages.IndexPage),
                                       ('/auth', pages.AuthPage),
                                       ('/scrobble', pages.ScrobblePage),
+                                      ('/now_playing', pages.NowPlayingPage),
                                       ('/user.*', pages.UserPage)],
                                      debug=True)
 

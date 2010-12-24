@@ -6,7 +6,7 @@ from google.appengine.ext.webapp import template
 
 class ScrobblePage(webapp.RequestHandler):
     """Handle requests to scrobble a track"""
-    required_params = ['user', 'artist', 'track', 'duration']
+    required_params = ['username', 'artist', 'track', 'duration']
     optional_params = ['album']
 
     def post(self):
@@ -17,7 +17,8 @@ class ScrobblePage(webapp.RequestHandler):
 
         self.response.out.write(cgi.escape("\n".join([k + '=' + v for (k,v) in params.iteritems()])))
 
-        scrobble.scrobble(params['user'], params['track'], params['artist'], params['duration'], params['album'])
+        api = LastfmApi(params['username'])
+        api.scrobble(params['track'], params['artist'], params['duration'], params['album'])
         
     def get_params(self):
         """Get the parameters after verifying them"""
@@ -31,7 +32,7 @@ class ScrobblePage(webapp.RequestHandler):
         for o in self.optional_params:
             optional[o] = self.request.get(o) 
 
-        if not required['user'] or not required['artist'] or not required['track'] or not required['duration']:
+        if not required['username'] or not required['artist'] or not required['track'] or not required['duration']:
             self.response.set_status(400)
             required_arguments = "\n".join([a + '=' + self.request.get(a) for a in self.required_params])
             optional_arguments = "\n".join([a + '=' + self.request.get(a) for a in self.optional_params])

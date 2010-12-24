@@ -1,3 +1,13 @@
+import hashlib
+import os
+import sys
+import time
+import urllib
+import urllib2
+import xml.dom.minidom
+
+from LastfmSession import get_session_key, put_session_key
+
 class LastfmApi(object):
     """An interface to the Last.fm API"""
 
@@ -93,29 +103,11 @@ class LastfmApi(object):
                 rc.append(node.data)
         return ''.join(rc)
 
-    def _get_request_token(self):
-        """Get a Last.fm request token"""
-
-        params = dict({'method': 'auth.gettoken', 'api_key': self.API_KEY})
-        response = self._send_request(self._build_request_url(params))
-        return self._handle_token_response(response)
-
     def _get_session_key(self):
         """Get the session key for a user"""
 
         username = self.username
         session_key = scrobble.get_session_key(username)
-        if session_key is None:
-            token = self._get_request_token()
-            params = dict({'api_key': self.API_KEY, 'token': token})
-            webbrowser.open_new(self._build_auth_url(params)) # Open a browser and ask for authentication
-            raw_input('press <ENTER> after giving permission')
-
-            params = self._add_api_signature_to_params(dict({'method': 'auth.getsession',
-                'api_key': self.API_KEY, 'token': token}))
-            session_key = self._handle_session_key_response(self._send_request(self._build_request_url(params)))
-
-            scrobble.set_session_key(username, session_key)
 
         return session_key
 
@@ -126,10 +118,33 @@ class LastfmApi(object):
         text = response.read()
         return text
 
+    def get_request_token_url(self):
+        """Get a Last.fm request token"""
+
+        host = os.environ['HTTP_HOST'] if os.environ.get('HTTP_HOST') else os.environ['SERVER_NAME']
+        params = dict({'cb': 'http://' + host + '?user=' + self.username, 'api_key': self.API_KEY})
+        url = self._build_auth_url(params)
+        return url
+
+    def create_and_set_session_key(self, token):
+        """Create a session key with the given token and set it in the datastore"""
+
+        params = self._add_api_signature_to_params(dict({'method': 'auth.getsession',
+            'api_key': self.API_KEY, 'token': token}))
+        session_key = self._handle_session_key_response(self._send_request(self._build_request_url(params)))
+
+        scrobble.put_session_key(self.username, session_key)
+
+        return session_key
+
     def scrobble(self, artist, track, duration, album=None):
         """Submit a track to Last.fm for the given username and password"""
 
         session_key = self._get_session_key()
+
+        if session_key is None:
+            return
+
         params = dict({'method': 'track.scrobble',
             'track': track, 'artist': artist, 'duration': duration,
             'timestamp': int(time.time() - duration), 
@@ -145,6 +160,10 @@ class LastfmApi(object):
         """Submit a track to Last.fm to update the now playing status"""
 
         session_key = self._get_session_key()
+
+        if session_key is None:
+            return
+
         params = dict({'method': 'track.updatenowplaying',
             'track': track, 'artist': artist,
             'api_key': self.API_KEY, 'sk': session_key})
@@ -158,12 +177,3 @@ class LastfmApi(object):
         params = self._add_api_signature_to_params(params)
         self._send_request(self._build_request_url(params, post=True))
 
-def scrobble(username, track, artist, duration, album):
-    """Scrobble a track for the given user"""
-    api = LastfmApi(username)
-    api.scrobble(artist, track, duration, album)
-
-def update_now_playing(username, track, artist, duration, album):
-    """Update the now playing track for the given user"""
-    api = LastfmApi(username)
-    api.update_now_playing(artist, track, duration, album)

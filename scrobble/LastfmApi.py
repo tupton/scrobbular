@@ -3,6 +3,7 @@ import os
 import sys
 import time
 import urllib
+urllib.getproxies_macosx_sysconf = lambda: {}
 import urllib2
 import xml.dom.minidom
 

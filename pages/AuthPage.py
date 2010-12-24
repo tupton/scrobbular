@@ -17,8 +17,8 @@ class AuthPage(webapp.RequestHandler):
             self.response.out.write(cgi.escape('already authenticated ' + username + ': ' + session_key))
 
     def get(self):
-        username = self.response.get('username')
-        token = self.response.get('token')
+        username = self.request.get('username')
+        token = self.request.get('token')
         if username and token:
             api = scrobble.LastfmApi(username)
             session_key = api.create_and_set_session_key(token)

@@ -1,5 +1,5 @@
 {% include "header.html" %}
             <div class="user-status"><span class="username"><a href="http://last.fm/user/{{ username }}">{{ username }}</a></span> is
             <span class="auth-status {% if not session_key %} no-auth {% else %} auth {% endif %}">
-                {% if not session_key %} not {% endif %} authenticated</span> with Last.fm</div>
+                {% if not session_key %} not {% endif %} authenticated</span> with Last.fm.</div>
 {% include "footer.html" %}

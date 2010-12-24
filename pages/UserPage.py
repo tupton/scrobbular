@@ -24,5 +24,7 @@ class UserPage(webapp.RequestHandler):
         """Render the user page for the given user"""
         session_key = scrobble.get_session_key(user)
         self.response.out.write(template.render('templates/user.html', {'username': user,
-                                                                            'session_key': session_key}))
+                                                                        'session_key': session_key,
+                                                                        'styles': ['user']
+                                                                       }))
 

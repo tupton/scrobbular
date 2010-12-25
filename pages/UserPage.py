@@ -21,7 +21,6 @@ class UserPage(webapp.RequestHandler):
                 self.response.out.write(template.render('templates/user.html', {'logout': users.create_logout_url('/'),
                                                                                 'styles': ['user']
                                                                                }))
-
         else:
             self.redirect(users.create_login_url('/user'))
 

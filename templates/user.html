@@ -1,5 +1,16 @@
 {% include "header.html" %}
-            <div class="user-status"><span class="username"><a href="http://last.fm/user/{{ username }}">{{ username }}</a></span> is
-            <span class="auth-status {% if not session_key %} no-auth {% else %} auth {% endif %}">
-                {% if not session_key %} not {% endif %} authenticated</span> with Last.fm.</div>
+{% if secret %}
+<div id="secret">
+    <form action="/user" method="post">
+        <label for="secret">Secret</label><input type="text" name="secret" value="{{ secret }}">
+        <input type="submit" id="change_secret" value="Change Secret">
+    </form>
+</div>
+{% else %}
+<div id="authenticate">
+    <form action="/auth" method="post">
+        <input type="submit" id="auth" value="Authenticate with Last.fm">
+    </form>
+</div>
+{% endif %}
 {% include "footer.html" %}

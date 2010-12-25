@@ -14,6 +14,7 @@ $(function() {
     });
 
     $('#really-delete').click(function() {
+        // TODO POST and redirect
         alert('really delete me');
     });
 });

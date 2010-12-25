@@ -1,5 +1,5 @@
-#authenticate {
-    margin-left: 2em; 
+#get-started {
+    text-align: center;
     font-size: 2em;
     margin: 3em auto;
     width: 600px;
@@ -20,4 +20,18 @@
     color: #333;
     width 250px;
     padding: 0 10px;
+}
+
+#about {
+    margin: 1em auto;
+    width: 600px;
+    line-height: 1.75em;
+}
+
+#about p {
+    margin-top: 20px;
+}
+
+.summary {
+    text-align: center;
 }

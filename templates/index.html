@@ -1,19 +1,26 @@
 {% include "header.html" %}
-    <div id="authenticate">
-        <form action="/auth" method="post">
-            <div class="label">
-                <label for="username">Last.fm username:</label>
-            </div>
-            <div class="input">
-                <input type="text" name="username" id="username" value="">
-                <input type="submit" id="submit" value="Authenticate">
-            </div>
-        </form>
+    <div id="get-started">
+        <a href="/user">Get Started Now ➔</a>
     </div>
     <div id="about">
         <h2>What is Scrobbular?</h2>
-        <p><span class="app">Scrobbular</span> makes it easy to scrobble songs to Last.fm from any application.</p>
-        <p>First, you need to allow <span class="app">Scrobbular</span> to scrobble songs in your name. Enter your Last.fm username and click Authenticate.
-        You will be taken to a Last.fm page that allows you to give the necessary permission to Last.fm. If you are not logged in to Last.fm, you will be asked to log in first.</p>
+        <p class="highlight summary" id="what"><span class="app">Scrobbular</span> makes it easy to scrobble songs to <a href="http://last.fm">Last.fm</a> from anywhere.</p>
+        <p>Once you have a Scrobbular account, telling Last.fm about what music you play is as as simple as sending a message to Scrobbular.
+        With <code>curl</code>, that would look something like this:</p>
+        <pre>curl -X POST --data \
+            "username=&lt;Your Last.fm Username&gt; \
+            ss=&lt;Your Scrobbular Secret&gt; \
+            track=Red Sky \
+            artist=Thrice \
+            album=Vheissu \
+            duration=258" \
+            http://scrobbular.appspot.com/scrobble
+        </pre>
+
+        <h2>How do I start using Scrobbular?</h2>
+        <p class="highlight summary" id="start">You can start using <span class="app">Scrobbular</span> with your Google Account</p>
+        <p>First, you need to allow <span class="app">Scrobbular</span> to talk to Last.fm on your behalf. You can <a href="/user">manage your user page here</a>
+        once you log in with a Google Account. That's it! You can start using <span class="app">Scrobbular</span> by sending simple messages without the need to
+        figure out how to use Last.fm's API.</p>
     </div>
 {% include "footer.html" %}

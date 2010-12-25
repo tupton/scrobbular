@@ -2,24 +2,32 @@ import cgi
 import scrobble
 import time
 
+from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
 class AuthPage(webapp.RequestHandler):
     def post(self):
-        username = self.request.get('username')
-        session_key = scrobble.get_session_key(username)
-        if session_key is None:
-            api = scrobble.LastfmApi(username)
-            self.redirect(api.get_request_token_url())
+        user = users.get_current_user()
+        if user:
+            user_id = user.user_id()
+            session_key = scrobble.get_session_key(user_id)
+            if session_key is None:
+                api = scrobble.LastfmApi(user_id)
+                self.redirect(api.get_request_token_url())
+            else:
+                self.redirect('/user')
         else:
-            self.redirect('/user/' + username)
+            self.redirect(users.create_login_url('/'))
 
     def get(self):
-        username = self.request.get('username')
+        user = users.get_current_user()
+        if not user:
+            self.redirect(users.create_login_url(self.request.uri))
+
         token = self.request.get('token')
-        if username and token:
-            api = scrobble.LastfmApi(username)
+        if token:
+            api = scrobble.LastfmApi(user.user_id())
             session_key = api.create_and_set_session_key(token)
-            self.redirect('/user/' + username)
+            self.redirect('/user')
 

@@ -1,8 +1,13 @@
+import string
+
+from random import choice
+
 from google.appengine.ext import db
 
 class LastfmSession(db.Model):
     username = db.StringProperty(required=True)
     session_key = db.StringProperty(required=True)
+    secret = db.StringProperty(required=True)
     date_created = db.DateTimeProperty(auto_now_add=True)
 
 def _get_session(username):
@@ -17,6 +22,11 @@ def _get_session(username):
             break
 
     return session
+
+def create_new_secret():
+    """Generate a new secret"""
+    secret = ''.join([choice(string.letters + string.digits) for i in range(8)])
+    return secret
 
 def get_session_key(username):
     """Get the session key for a given username"""
@@ -35,7 +45,26 @@ def put_session_key(username, session_key):
     if session is not None:
         session.session_key = session_key
     else:
-        session = LastfmSession(username=username, session_key=session_key)
+        session = LastfmSession(username=username, session_key=session_key, secret=create_new_secret())
 
     db.put(session)
+
+def get_secret(username):
+    secret = None
+    session = _get_session(username)
+    if session is not None:
+        secret = session.secret
+
+    return secret
+
+def put_secret(username, secret):
+    """Set a secret for a user"""
+    session = _get_session(username)
+    if session is not None:
+        session.secret = secret
+    else:
+        session = LastfmSession(username=username, session_key=session_key, secret=create_new_secret())
+
+    db.put(session)
+    
 

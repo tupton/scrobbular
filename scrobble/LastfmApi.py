@@ -7,7 +7,7 @@ urllib.getproxies_macosx_sysconf = lambda: {}
 import urllib2
 import xml.dom.minidom
 
-from LastfmSession import get_session_key, put_session_key
+from LastfmSession import get_session_key, put_session_key, put_secret, create_new_secret
 
 class LastfmApi(object):
     """An interface to the Last.fm API"""
@@ -123,7 +123,7 @@ class LastfmApi(object):
         """Get a Last.fm request token"""
 
         host = os.environ['HTTP_HOST'] if os.environ.get('HTTP_HOST') else os.environ['SERVER_NAME']
-        params = dict({'cb': 'http://' + host + '/auth?username=' + self.username, 'api_key': self.API_KEY})
+        params = dict({'cb': 'http://' + host + '/auth', 'api_key': self.API_KEY})
         url = self._build_auth_url(params)
         return url
 
@@ -135,6 +135,9 @@ class LastfmApi(object):
         session_key = self._handle_session_key_response(self._send_request(self._build_request_url(params)))
 
         put_session_key(self.username, session_key)
+
+        secret = create_new_secret()
+        put_secret(self.username, secret) 
 
         return session_key
 

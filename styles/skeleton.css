@@ -10,12 +10,19 @@
     margin-bottom: 10px;
 }
 
+#header h1 {
+    display: inline;
+    padding-right: 15px;
+}
+
+#header h1 a {
+    text-decoration: none;
+    color: #333;
+}
+
 #footer {
     margin: auto;
     padding: 10px 0 5px 0;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
 }
 
 #footer p {

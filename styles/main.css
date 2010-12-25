@@ -39,3 +39,7 @@ pre {
 .app {
     font-weight: bold;
 }
+
+.light {
+    color: #aaa;
+}

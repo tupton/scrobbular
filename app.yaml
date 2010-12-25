@@ -7,5 +7,8 @@ handlers:
 - url: /styles
   static_dir: styles
 
+- url: /scripts
+  static_dir: scripts
+
 - url: /.*
   script: hello.py

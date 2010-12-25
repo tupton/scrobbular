@@ -16,6 +16,14 @@
             <link rel="stylesheet" href="/styles/{{ style }}.css" type="text/css" media="screen" charset="utf-8">
         {% endfor %}
     {% endif %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    {% if scripts %}
+        {% for script in scripts %}
+            <script src="scripts/{{ script }}.js" type="text/javascript"></script>
+        {% endfor %}
+    {% endif %}
+
 </head>
 <body>
     <div id="header">

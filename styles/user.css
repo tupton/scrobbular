@@ -1,21 +1,5 @@
-.user-status {
-    margin-left: 2em;
-}
-
-.user-status .username {
-    font-size: 2em;
-}
-
-.auth-status {
+#auth-button {
+    background-color: #ccc;
     color: #333;
-    padding: 0 3px;
-}
-
-.no-auth {
-    background-color: #faa;
-}
-
-.auth {
-    background-color: #afa;
 }
 

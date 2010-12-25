@@ -15,11 +15,13 @@ class UserPage(webapp.RequestHandler):
                 secret = scrobble.get_secret(user_id)
                 self.response.out.write(template.render('templates/user.html', {'secret': secret,
                                                                                 'logout': users.create_logout_url('/'),
-                                                                                'styles': ['user']
+                                                                                'styles': ['user'],
+                                                                                'scripts': ['user']
                                                                                }))
             else:
                 self.response.out.write(template.render('templates/user.html', {'logout': users.create_logout_url('/'),
-                                                                                'styles': ['user']
+                                                                                'styles': ['user'],
+                                                                                'scripts': ['user']
                                                                                }))
         else:
             self.redirect(users.create_login_url('/user'))

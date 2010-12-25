@@ -3,13 +3,16 @@
 <div id="secret">
     <form action="/user" method="post">
         <label for="secret">Secret</label><input type="text" name="secret" value="{{ secret }}">
-        <input type="submit" id="change_secret" value="Change Secret">
+        <input type="submit" id="secret-button" value="Change Secret">
     </form>
+</div>
+<div id="delete-account">
+    <a href="#" id="delete">Delete my Scrobbular account</a> <span id="confirm"><a href="#" id="cancel">cancel</a> / <a href="#" id="really-delete">delete</a></span>
 </div>
 {% else %}
 <div id="authenticate">
     <form action="/auth" method="post">
-        <input type="submit" id="auth" value="Authenticate with Last.fm">
+        <input type="submit" id="auth-button" value="Authenticate with Last.fm">
     </form>
 </div>
 {% endif %}

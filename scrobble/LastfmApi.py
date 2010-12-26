@@ -176,11 +176,11 @@ class LastfmApi(object):
 
         session_key = self._get_session_key()
         if session_key is None:
-            raise Exception('session key is None')
+            return
 
         secret = self._get_secret()
         if secret != self.secret:
-            raise Exception('secret does not match')
+            return
 
         params = dict({'method': 'track.updatenowplaying',
             'track': track, 'artist': artist,

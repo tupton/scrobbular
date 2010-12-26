@@ -78,3 +78,4 @@ def delete_session(username):
     session = _get_session(username)
     if session is not None:
         db.delete(session)
+

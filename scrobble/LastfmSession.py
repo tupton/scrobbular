@@ -72,4 +72,9 @@ def put_secret(username, secret):
 
     db.put(session)
     
+def delete_session(username):
+    """Delete the session record for the given user"""
 
+    session = _get_session(username)
+    if session is not None:
+        db.delete(session)

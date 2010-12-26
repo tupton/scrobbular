@@ -7,7 +7,7 @@ urllib.getproxies_macosx_sysconf = lambda: {}
 import urllib2
 import xml.dom.minidom
 
-from LastfmSession import get_session_key, put_session_key, put_secret, create_new_secret
+from LastfmSession import get_session_key, put_session_key, get_secret, put_secret, create_new_secret
 
 class LastfmApi(object):
     """An interface to the Last.fm API"""
@@ -18,8 +18,9 @@ class LastfmApi(object):
     API_URL = "http://ws.audioscrobbler.com/2.0/"
     AUTH_URL = "http://www.last.fm/api/auth/"
 
-    def __init__(self, username):
-        self.username = username
+    def __init__(self, user, secret=None):
+        self.user = user
+        self.secret = secret
 
     def _add_api_signature_to_params(self, params):
         """Calculate and add the API signature to the given parameters"""
@@ -104,11 +105,18 @@ class LastfmApi(object):
                 rc.append(node.data)
         return ''.join(rc)
 
+    def _get_secret(self):
+        """Get the secret for a user"""
+        user = self.user
+        secret = get_secret(user)
+
+        return secret
+
     def _get_session_key(self):
         """Get the session key for a user"""
 
-        username = self.username
-        session_key = get_session_key(username)
+        user = self.user
+        session_key = get_session_key(user)
 
         return session_key
 
@@ -134,19 +142,22 @@ class LastfmApi(object):
             'api_key': self.API_KEY, 'token': token}))
         session_key = self._handle_session_key_response(self._send_request(self._build_request_url(params)))
 
-        put_session_key(self.username, session_key)
+        put_session_key(self.user, session_key)
 
         secret = create_new_secret()
-        put_secret(self.username, secret) 
+        put_secret(self.user, secret) 
 
         return session_key
 
     def scrobble(self, artist, track, duration, album=None):
-        """Submit a track to Last.fm for the given username and password"""
+        """Submit a track to Last.fm to scrobble"""
 
         session_key = self._get_session_key()
-
         if session_key is None:
+            return
+
+        secret = self._get_secret()
+        if secret != self.secret:
             return
 
         params = dict({'method': 'track.scrobble',
@@ -164,9 +175,12 @@ class LastfmApi(object):
         """Submit a track to Last.fm to update the now playing status"""
 
         session_key = self._get_session_key()
-
         if session_key is None:
-            return
+            raise Exception('session key is None')
+
+        secret = self._get_secret()
+        if secret != self.secret:
+            raise Exception('secret does not match')
 
         params = dict({'method': 'track.updatenowplaying',
             'track': track, 'artist': artist,

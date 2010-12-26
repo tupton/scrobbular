@@ -10,7 +10,7 @@ class ChangeSecretPage(webapp.RequestHandler):
         user = users.get_current_user()
         secret = self.request.get('secret')
         if user and secret:
-            scrobble.put_secret(user.user_id(), secret)
+            scrobble.put_secret(user, secret)
             self.redirect('/user')
         else:
             self.redirect('/')

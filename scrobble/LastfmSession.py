@@ -12,10 +12,9 @@ class LastfmSession(db.Model):
     secret = db.StringProperty(required=True)
     date_created = db.DateTimeProperty(auto_now_add=True)
 
-def _get_session(username):
+def _get_session(user):
     """Get the session for a user"""
 
-    user = users.User(username)
     query = LastfmSession.gql("WHERE user = :1 LIMIT 1", user)
 
     session = None
@@ -33,52 +32,49 @@ def create_new_secret():
     secret = ''.join([choice(string.letters + string.digits) for i in range(8)])
     return secret
 
-def get_session_key(username):
-    """Get the session key for a given username"""
+def get_session_key(user):
+    """Get the session key for a given user"""
 
     session_key = None
-    session = _get_session(username)
+    session = _get_session(user)
     if session is not None:
         session_key = session.session_key
 
     return session_key
 
-def put_session_key(username, session_key):
-    """Create or replace the session key for a given username"""
+def put_session_key(user, session_key):
+    """Create or replace the session key for a given user"""
     
-    session = _get_session(username)
+    session = _get_session(user)
     if session is not None:
         session.session_key = session_key
     else:
-        session = LastfmSession(username=username, session_key=session_key, secret=create_new_secret())
+        session = LastfmSession(user=user, user_id=user.user_id(), session_key=session_key, secret=create_new_secret())
 
     db.put(session)
 
-def get_secret(username):
+def get_secret(user):
     """Get the secret for a user"""
 
     secret = None
-    session = _get_session(username)
+    session = _get_session(user)
     if session is not None:
         secret = session.secret
 
     return secret
 
-def put_secret(username, secret):
+def put_secret(user, secret):
     """Set a secret for a user"""
 
-    session = _get_session(username)
+    session = _get_session(user)
     if session is not None:
         session.secret = secret
-    else:
-        session = LastfmSession(username=username, session_key=session_key, secret=create_new_secret())
-
-    db.put(session)
+        db.put(session)
     
-def delete_session(username):
+def delete_session(user):
     """Delete the session record for the given user"""
 
-    session = _get_session(username)
+    session = _get_session(user)
     if session is not None:
         db.delete(session)
 

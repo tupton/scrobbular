@@ -10,10 +10,9 @@ class AuthPage(webapp.RequestHandler):
     def post(self):
         user = users.get_current_user()
         if user:
-            user_id = user.user_id()
-            session_key = scrobble.get_session_key(user_id)
+            session_key = scrobble.get_session_key(user)
             if session_key is None:
-                api = scrobble.LastfmApi(user_id)
+                api = scrobble.LastfmApi(user)
                 self.redirect(api.get_request_token_url())
             else:
                 self.redirect('/user')
@@ -27,7 +26,7 @@ class AuthPage(webapp.RequestHandler):
 
         token = self.request.get('token')
         if token:
-            api = scrobble.LastfmApi(user.user_id())
+            api = scrobble.LastfmApi(user)
             session_key = api.create_and_set_session_key(token)
             self.redirect('/user')
 

@@ -9,10 +9,9 @@ class UserPage(webapp.RequestHandler):
     def get(self):
         user = users.get_current_user()
         if user:
-            user_id = user.user_id()
-            session_key = scrobble.get_session_key(user_id)
+            session_key = scrobble.get_session_key(user)
             if session_key:
-                secret = scrobble.get_secret(user_id)
+                secret = scrobble.get_secret(user)
                 self.response.out.write(template.render('templates/user.html', {'secret': secret,
                                                                                 'logout': users.create_logout_url('/'),
                                                                                 'styles': ['user'],

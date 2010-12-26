@@ -1,6 +1,32 @@
 {% include "header.html" %}
 <div id="container">
-{% if secret %}
+{% if user and secret %}
+<div id="howto">
+    <p class="code"><pre>curl -d \
+    "username={{ user }} \
+    s={{ secret }} \
+    track=Kill+Me+Quickly \
+    artist=Thrice \
+    album=The+Illusion+Of+Safety \
+    duration=167" \
+    http://scrobbular.appspot.com/scrobble</pre>
+    </p>
+    <div id="about-howto" class="explanation">
+        <p class="highlight summary">This is an example message that you can send to <span class="app">Scrobbular</span>.</p>
+
+        <p>You can scrobble by sending a POST request to <code>http://scrobbular.appspot.com/scrobble</code> that contains
+        at least your <code>username</code> and <code>secret</code>, the <code>track</code> name, the <code>artist</code>,
+        and the <code>duration</code> of the track. The <code>album</code> is optional.</p>
+
+        <p>You can update your now playing status by sending a POST request to <code>http://scrobbular.appspot.com/now_playing</code>
+        that contains at least your <code>username</code> and <code>secret</code>, the <code>track</code> name, and the <code>artist</code>.
+        The <code>album</code> and <code>duration</code> are optional.</p>
+
+        <p>These messages can be sent as a result of hooking in to your music player. For instance, you could run an Applescript when iTunes changes tracks,
+        or you could use <a href="https://github.com/PromyLOPh/pianobar">pianobar</a> and its external <code>eventcmd</code> script. More suggestions about 
+        how to use <span class="app">Scrobbular</span> can be found on the <a href="/howto">how-to page</a>.<p>
+    </div>
+</div>
 <div id="secret">
     <form action="/user/secret" method="post">
         <label for="secret">Secret: </label><input type="text" name="secret" id="secret-input" value="{{ secret }}">
@@ -13,10 +39,10 @@
 </div>
 <div id="delete-account">
     <div id="delete-link">
-        <a href="#" id="delete" class="delete">Delete my Scrobbular account ➔</a>
+        <a href="#" id="delete" class="delete">Delete my Scrobbular account ✖</a>
         <span id="confirm"><a href="#" id="cancel">cancel</a> / <a href="/user/delete" id="really-delete" class="delete">delete</a></span>
     </div>
-    <div id="about-secret" class="explanation">
+    <div id="about-delete" class="explanation">
         <p class="highlight summary">Deleting your account removes Last.fm session information from <span class="app">Scrobbular</span>.</p>
         <p>You can delete your <span class="app">Scrobbular</span> account at any time. Deleting your account means that your Last.fm session and your secret will be forgotten.
         You can also remove <span class="app">Scrobbular</span> from the <a href="http://www.last.fm/settings/applications">list of applications that are allowed to access Last.fm data</a>.
@@ -28,7 +54,7 @@
     <form action="/auth" method="post">
         <input type="submit" id="auth-button" value="Authenticate with Last.fm">
     </form>
-    <div id="about-secret" class="explanation">
+    <div id="about-auth" class="explanation">
         <p class="highlight summary">In order to start, allow <span class="app">Scrobbular</span> to access your Last.fm data.</p>
         <p>Click the button above to be taken to a Last.fm page that will ask you to give <span class="app">Scrobbular</span> permission to access your data.
         You may have to log in or switch to the correct Last.fm account before giving permission. Once you're back to the user page, you will be given your

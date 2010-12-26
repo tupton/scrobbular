@@ -3,11 +3,13 @@
     width: 600px;
 }
 
+/* Secret */
 #secret {
    margin-top: 25px; 
 }
 
-#secret form {
+#secret form,
+#authenticate form {
     font-size: 1.75em;
     text-align: center;
 }
@@ -20,6 +22,7 @@
     width: 200px;
 }
 
+/* Delete */
 #delete-account {
     margin-top: 50px;
 }
@@ -50,8 +53,13 @@
     padding-left: 10px;
 }
 
-#auth-button {
-    background-color: #ccc;
-    color: #333;
+/* Authenticate */
+#authenticate {
+    margin-top: 25px;
+}
+
+#authenticate form input {
+    font-size: 50px;
+    text-align: center;
 }
 

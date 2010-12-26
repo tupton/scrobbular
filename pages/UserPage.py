@@ -26,12 +26,3 @@ class UserPage(webapp.RequestHandler):
         else:
             self.redirect(users.create_login_url('/user'))
 
-    def post(self):
-        """Handle a post request to the user page"""
-        user = users.get_current_user()
-        secret = self.request.get('secret')
-        if user and secret:
-            scrobble.put_secret(user.user_id(), secret)
-            self.redirect('/user')
-        else:
-            self.redirect('/')

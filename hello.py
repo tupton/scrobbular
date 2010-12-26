@@ -8,7 +8,9 @@ application = webapp.WSGIApplication(
                                       ('/auth', pages.AuthPage),
                                       ('/scrobble', pages.ScrobblePage),
                                       ('/now_playing', pages.NowPlayingPage),
-                                      ('/user.*', pages.UserPage)],
+                                      ('/user', pages.UserPage),
+                                      ('/user/secret', pages.ChangeSecretPage),
+                                      ('/user/delete', pages.DeleteUserPage)],
                                      debug=True)
 
 def main():

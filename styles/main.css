@@ -43,3 +43,13 @@ pre {
 .light {
     color: #aaa;
 }
+
+.summary {
+    text-align: center;
+}
+
+.explanation {
+    margin: 1em auto;
+    width: 600px;
+    line-height: 1.75em;
+}

@@ -1,13 +1,27 @@
 {% include "header.html" %}
+<div id="container">
 {% if secret %}
 <div id="secret">
-    <form action="/user" method="post">
-        <label for="secret">Secret</label><input type="text" name="secret" value="{{ secret }}">
+    <form action="/user/secret" method="post">
+        <label for="secret">Secret: </label><input type="text" name="secret" id="secret-input" value="{{ secret }}">
         <input type="submit" id="secret-button" value="Change Secret">
     </form>
+    <div id="about-secret" class="explanation">
+        <p class="highlight summary">Include this secret with every message you send to <span class="app">Scrobbular</span>.</p>
+        <p>You need to include this secret as the parameter <code>s</code> with every message you send to Scrobbular so that only you can send updates to Last.fm</p>
+    </div>
 </div>
 <div id="delete-account">
-    <a href="#" id="delete">Delete my Scrobbular account</a> <span id="confirm"><a href="#" id="cancel">cancel</a> / <a href="#" id="really-delete">delete</a></span>
+    <div id="delete-link">
+        <a href="#" id="delete" class="delete">Delete my Scrobbular account ➔</a>
+        <span id="confirm"><a href="#" id="cancel">cancel</a> / <a href="#" id="really-delete" class="delete">delete</a></span>
+    </div>
+    <div id="about-secret" class="explanation">
+        <p class="highlight summary">Deleting your account removes Last.fm session information from <span class="app">Scrobbular</span>.</p>
+        <p>You can delete your <span class="app">Scrobbular</span> account at any time. Deleting your account means that your Last.fm session and your secret will be forgotten.
+        You can also remove <span class="app">Scrobbular</span> from the <a href="http://www.last.fm/settings/applications">list of applications that are allowed to access Last.fm data</a>.
+        If you accidentally delete your account, you can sign up again and re-authenticate with Last.fm. Note that if you re-create your account, your secret will be reset.</p>
+    </div>
 </div>
 {% else %}
 <div id="authenticate">
@@ -16,4 +30,5 @@
     </form>
 </div>
 {% endif %}
+</div>
 {% include "footer.html" %}

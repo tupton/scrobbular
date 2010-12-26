@@ -22,16 +22,7 @@
     padding: 0 10px;
 }
 
-#about {
-    margin: 1em auto;
-    width: 600px;
-    line-height: 1.75em;
-}
-
 #about p {
     margin-top: 20px;
 }
 
-.summary {
-    text-align: center;
-}

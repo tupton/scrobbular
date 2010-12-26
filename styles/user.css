@@ -1,3 +1,55 @@
+#container {
+    margin: auto;
+    width: 600px;
+}
+
+#secret {
+   margin-top: 25px; 
+}
+
+#secret form {
+    font-size: 1.75em;
+    text-align: center;
+}
+
+#about-secret p {
+    margin-top: 20px;
+}
+
+#secret-input {
+    width: 200px;
+}
+
+#delete-account {
+    margin-top: 50px;
+}
+
+#delete-account #delete {
+    font-size: 1.7em;
+}
+
+.delete {
+    color: #f00;
+}
+
+.delete:hover {
+    color: #fff;
+    background: #f00;
+}
+
+#delete-account #really-delete {
+    text-decoration: none;
+}
+
+#delete-account #cancel {
+    color: #333;
+    text-decoration: none;
+}
+
+#confirm {
+    padding-left: 10px;
+}
+
 #auth-button {
     background-color: #ccc;
     color: #333;

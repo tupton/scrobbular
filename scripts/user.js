@@ -16,7 +16,9 @@ $(function() {
     });
 
     $('#really-delete').click(function() {
-        // TODO POST and redirect
-        alert('really delete me');
+        $.post($(this).attr('href'), function() {
+            document.location = '/';   
+        });
+        return false;
     });
 });

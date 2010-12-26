@@ -2,18 +2,21 @@ import string
 
 from random import choice
 
+from google.appengine.api import users
 from google.appengine.ext import db
 
 class LastfmSession(db.Model):
-    username = db.StringProperty(required=True)
+    user = db.UserProperty(required=True)
+    user_id = db.StringProperty(required=True)
     session_key = db.StringProperty(required=True)
     secret = db.StringProperty(required=True)
     date_created = db.DateTimeProperty(auto_now_add=True)
 
 def _get_session(username):
-    """Get the session for a username"""
+    """Get the session for a user"""
 
-    query = LastfmSession.gql("WHERE username = :1 LIMIT 1", username)
+    user = users.User(username)
+    query = LastfmSession.gql("WHERE user = :1 LIMIT 1", user)
 
     session = None
     results = query.fetch(1)

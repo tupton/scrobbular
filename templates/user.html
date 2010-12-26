@@ -2,15 +2,15 @@
 <div id="container">
 {% if user and secret %}
 <div id="howto">
-    <p class="code"><pre>curl -d \
+    <pre>curl -d \
     "username={{ user }} \
     s={{ secret }} \
     track=Kill+Me+Quickly \
     artist=Thrice \
     album=The+Illusion+Of+Safety \
     duration=167" \
-    http://scrobbular.appspot.com/scrobble</pre>
-    </p>
+    http://scrobbular.appspot.com/scrobble
+    </pre>
     <div id="about-howto" class="explanation">
         <p class="highlight summary">This is an example message that you can send to <span class="app">Scrobbular</span>.</p>
 

@@ -31,13 +31,18 @@ pre {
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     background-color: #ebebeb;
-    padding: 5px 5px 5px 2em;
+    padding: 5px 5px 0 2em;
 }
 
 code {
     padding: 3px;
     background-color: #ebebeb;
     display: inline;
+}
+
+#container {
+    margin: auto;
+    width: 600px;
 }
 
 /* Utility */

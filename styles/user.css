@@ -18,6 +18,11 @@
     text-align: center;
 }
 
+#secret form input[type='submit'],
+#authenticate form {
+    font-size: 1em;
+}
+
 #secret-input {
     width: 200px;
 }
@@ -56,10 +61,5 @@
 /* Authenticate */
 #authenticate {
     margin-top: 25px;
-}
-
-#authenticate form input {
-    font-size: 50px;
-    text-align: center;
 }
 

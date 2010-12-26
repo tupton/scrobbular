@@ -10,7 +10,7 @@ class LastfmRequestPage(webapp.RequestHandler):
         # Required parameters
         required = dict()
         for r in self.required_params:
-            required[r] = self.request.get(r)
+            required[r] = self.request.get(r).strip()
 
         for param in self.required_params:
             if not required[param]:
@@ -25,7 +25,7 @@ class LastfmRequestPage(webapp.RequestHandler):
         # Optional parameters
         optional = dict()
         for o in self.optional_params:
-            optional[o] = self.request.get(o) 
+            optional[o] = self.request.get(o).strip()
 
         params = required
         params.update(optional)

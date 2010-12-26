@@ -12,6 +12,7 @@ class LastfmSession(db.Model):
 
 def _get_session(username):
     """Get the session for a username"""
+
     query = LastfmSession.gql("WHERE username = :1 LIMIT 1", username)
 
     session = None
@@ -25,6 +26,7 @@ def _get_session(username):
 
 def create_new_secret():
     """Generate a new secret"""
+
     secret = ''.join([choice(string.letters + string.digits) for i in range(8)])
     return secret
 
@@ -50,6 +52,8 @@ def put_session_key(username, session_key):
     db.put(session)
 
 def get_secret(username):
+    """Get the secret for a user"""
+
     secret = None
     session = _get_session(username)
     if session is not None:
@@ -59,6 +63,7 @@ def get_secret(username):
 
 def put_secret(username, secret):
     """Set a secret for a user"""
+
     session = _get_session(username)
     if session is not None:
         session.secret = secret

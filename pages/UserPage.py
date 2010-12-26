@@ -12,13 +12,15 @@ class UserPage(webapp.RequestHandler):
             session_key = scrobble.get_session_key(user)
             if session_key:
                 secret = scrobble.get_secret(user)
-                self.response.out.write(template.render('templates/user.html', {'secret': secret,
+                self.response.out.write(template.render('templates/user.html', {'user': user.email(),
+                                                                                'secret': secret,
                                                                                 'logout': users.create_logout_url('/'),
                                                                                 'styles': ['user'],
                                                                                 'scripts': ['user']
                                                                                }))
             else:
-                self.response.out.write(template.render('templates/user.html', {'logout': users.create_logout_url('/'),
+                self.response.out.write(template.render('templates/user.html', {'user': user.email(),
+                                                                                'logout': users.create_logout_url('/'),
                                                                                 'styles': ['user'],
                                                                                 'scripts': ['user']
                                                                                }))

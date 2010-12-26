@@ -27,5 +27,7 @@
 </head>
 <body>
     <div id="header">
-        <h1><a href="/">Scrobbular</a></h1>{% if logout %} <a href="{{ logout }}">Log out</a>{% endif %}
+        <h1><a href="/">Scrobbular</a></h1>
+        {% if user %} <span class="user">{{ user }}</span>{% endif %}
+        {% if logout %}<span class="logout"><a href="{{ logout }}">Log out</a></span>{% endif %}
     </div>

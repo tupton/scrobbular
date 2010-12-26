@@ -3,19 +3,24 @@
     width: 600px;
 }
 
+.explanation p {
+    margin-top: 20px;
+}
+
+/* How-to */
+#howto {
+    margin-top: 50px;
+}
+
 /* Secret */
 #secret {
-   margin-top: 25px; 
+   margin-top: 50px; 
 }
 
 #secret form,
 #authenticate form {
     font-size: 1.75em;
     text-align: center;
-}
-
-#about-secret p {
-    margin-top: 20px;
 }
 
 #secret-input {

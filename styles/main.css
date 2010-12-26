@@ -9,6 +9,14 @@ body {
     font-family: sans-serif;
 }
 
+a {
+    color: #77f;
+}
+
+a:hover {
+    color: #55f;
+}
+
 h1 {
     font-size: 2em;
     font-weight: bold;
@@ -20,7 +28,16 @@ h2 {
 }
 
 pre {
-    margin-left: 2em;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background-color: #ebebeb;
+    padding: 5px 5px 5px 2em;
+}
+
+code {
+    padding: 3px;
+    background-color: #ebebeb;
+    display: inline;
 }
 
 /* Utility */
@@ -52,4 +69,13 @@ pre {
     margin: 1em auto;
     width: 600px;
     line-height: 1.75em;
+}
+
+.user {
+    color: #555;
+    font-weight: bold;
+}
+
+.logout {
+    font-size: .75em;
 }

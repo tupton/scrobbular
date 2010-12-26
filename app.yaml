@@ -4,6 +4,10 @@ runtime: python
 api_version: 1
 
 handlers:
+- url: /favicon.ico
+  static_files: images/scrobbular_16.png
+  upload: images/scrobbular_16.png
+
 - url: /styles
   static_dir: styles
 

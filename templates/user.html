@@ -2,13 +2,12 @@
 <div id="container">
 {% if user and secret %}
 <div id="howto">
-    <pre>curl -d \
-    "username={{ user }}\
-    &amp;s={{ secret }}\
-    &amp;track=Red Sky\
-    &amp;artist=Thrice\
-    &amp;album=Vheissu\
-    &amp;duration=258"\
+    <pre>curl -X POST --data-urlencode "username={{ user }}"\
+    --data-urlencode "s={{ secret }}" \
+    --data-urlencode "track=Red Sky" \
+    --data-urlencode "artist=Thrice" \
+    --data-urlencode "album=Vheissu" \
+    --data-urlencode "duration=258" \
     http://scrobbular.appspot.com/scrobble
     </pre>
     <div id="about-howto" class="explanation">

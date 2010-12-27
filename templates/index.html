@@ -9,13 +9,12 @@
         <p>Once you allow access to Last.fm, telling the world about what music you listen to is as simple as sending a message to Scrobbular.
         With <code>curl</code>, that would look something like this:</p>
     </div>
-        <pre>curl -X POST --data \
-    "username=&lt;Your Google Username&gt;\
-    &amp;s=&lt;Your Scrobbular Secret&gt;\
-    &amp;track=Red Sky\
-    &amp;artist=Thrice\
-    &amp;album=Vheissu\
-    &amp;duration=258"\
+        <pre>curl -X POST --data-urlencode "username=<strong>&lt;Your Google Username&gt;</strong>" \
+    --data-urlencode "s=<strong>&lt;Your Scrobbular Secret&gt;</strong>" \
+    --data-urlencode "track=Red Sky" \
+    --data-urlencode "artist=Thrice" \
+    --data-urlencode "album=Vheissu" \
+    --data-urlencode "duration=258" \
     http://scrobbular.appspot.com/scrobble
         </pre>
 

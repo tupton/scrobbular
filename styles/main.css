@@ -40,6 +40,14 @@ code {
     display: inline;
 }
 
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
 #container {
     margin: auto;
     width: 600px;

@@ -6,9 +6,10 @@ import pages
 application = webapp.WSGIApplication(
                                      [('/', pages.IndexPage),
                                       ('/auth', pages.AuthPage),
-                                      ('/scrobble', pages.ScrobblePage),
+                                      ('/howto', pages.HowtoPage),
                                       ('/now_playing', pages.NowPlayingPage),
                                       ('/user', pages.UserPage),
+                                      ('/scrobble', pages.ScrobblePage),
                                       ('/user/secret', pages.ChangeSecretPage),
                                       ('/user/delete', pages.DeleteUserPage)],
                                      debug=True)

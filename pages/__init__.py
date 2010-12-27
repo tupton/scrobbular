@@ -2,6 +2,7 @@ from pages.IndexPage import IndexPage
 from pages.AuthPage import AuthPage
 from pages.ChangeSecretPage import ChangeSecretPage
 from pages.DeleteUserPage import DeleteUserPage
+from pages.HowtoPage import HowtoPage
 from pages.LastfmRequestPage import LastfmRequestPage
 from pages.NowPlayingPage import NowPlayingPage
 from pages.UserPage import UserPage

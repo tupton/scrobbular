@@ -17,5 +17,5 @@ class ScrobblePage(pages.LastfmRequestPage):
 
         user = users.User(params['username'])
         api = scrobble.LastfmApi(user, params['s'])
-        api.scrobble(params['track'], params['artist'], params['duration'], params['album'])
+        api.scrobble(params['artist'], params['track'], params['duration'], params['album'])
         

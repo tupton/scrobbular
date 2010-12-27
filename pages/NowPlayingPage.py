@@ -18,5 +18,5 @@ class NowPlayingPage(pages.LastfmRequestPage):
 
         user = users.User(params['username'])
         api = scrobble.LastfmApi(user, params['s'])
-        api.update_now_playing(params['track'], params['artist'], params['duration'], params['album'])
+        api.update_now_playing(params['artist'], params['track'], params['duration'], params['album'])
         

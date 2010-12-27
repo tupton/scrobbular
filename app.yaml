@@ -8,6 +8,10 @@ handlers:
   static_files: images/scrobbular_16.png
   upload: images/scrobbular_16.png
 
+- url: /robots.txt
+  static_files: static/robots.txt
+  upload: static/robots.txt
+
 - url: /styles
   static_dir: styles
 

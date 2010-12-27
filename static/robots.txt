@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /scrobble
+Disallow: /now_playing
+

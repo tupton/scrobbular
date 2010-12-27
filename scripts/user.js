@@ -6,6 +6,7 @@ $(function() {
         $(this).removeClass('delete');
         $(this).removeAttr('href');
         $('#confirm').show();
+        return false;
     });
 
     $('#cancel').click(function() {
@@ -13,6 +14,7 @@ $(function() {
         $('#delete').addClass('delete');
         $('#delete').attr('href', '#');
         $('#confirm').hide();
+        return false;
     });
 
     $('#really-delete').click(function() {

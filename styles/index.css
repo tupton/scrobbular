@@ -1,7 +1,7 @@
 #get-started {
     text-align: center;
     font-size: 2em;
-    margin: 3em auto;
+    margin: 1.5em auto;
     width: 600px;
 }
 
@@ -12,4 +12,10 @@
 
 #start {
     margin-top: 50px;
+}
+
+#icon {
+    display: block;
+    margin: auto auto 20px;
+
 }

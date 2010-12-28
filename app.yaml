@@ -12,6 +12,9 @@ handlers:
   static_files: static/robots.txt
   upload: static/robots.txt
 
+- url: /images
+  static_dir: images
+
 - url: /styles
   static_dir: styles
 

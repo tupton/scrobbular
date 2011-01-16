@@ -2,14 +2,7 @@
 <div id="container">
 {% if user and secret %}
 <div id="howto">
-    <pre>curl -X POST --data-urlencode "username={{ user }}"\
-    --data-urlencode "s={{ secret }}" \
-    --data-urlencode "track=Red Sky" \
-    --data-urlencode "artist=Thrice" \
-    --data-urlencode "album=Vheissu" \
-    --data-urlencode "duration=258" \
-    http://scrobbular.appspot.com/scrobble
-    </pre>
+    <script src="https://gist.github.com/782174.js?file=scrobbular%20curl"></script>
     <div id="about-howto" class="explanation">
         <p class="highlight summary">This is an example message that you can send to <span class="app">Scrobbular</span>.</p>
 

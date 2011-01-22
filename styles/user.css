@@ -15,7 +15,6 @@
 #secret form,
 #authenticate form {
     font-size: 1.75em;
-    text-align: center;
 }
 
 #secret form input[type='submit'],

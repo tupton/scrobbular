@@ -4,7 +4,7 @@
 <div id="howto">
     <script src="https://gist.github.com/782174.js?file=scrobbular%20curl"></script>
     <div id="about-howto" class="explanation">
-        <p class="highlight summary">This is an example message that you can send to <span class="app">Scrobbular</span>.</p>
+        <p class="highlight summary">This is an example HTTP message that you can send to <span class="app">Scrobbular</span>.</p>
 
         <p>You can scrobble by sending a POST request to <code>http://scrobbular.appspot.com/scrobble</code> that contains
         at least your <code>username</code> and <code>secret</code>, the <code>track</code> name, the <code>artist</code>,
@@ -14,7 +14,7 @@
         that contains at least your <code>username</code> and <code>secret</code>, the <code>track</code> name, and the <code>artist</code>.
         The <code>album</code> and <code>duration</code> are optional.</p>
 
-        <p>These messages can be sent as a result of hooking in to your music player. For instance, you could run an Applescript when iTunes changes tracks,
+        <p>These HTTP messages can be sent as a result of hooking in to your music player. For instance, you could run an Applescript when iTunes changes tracks,
         or you could use <a href="https://github.com/PromyLOPh/pianobar">pianobar</a> and its external <code>eventcmd</code> script. More suggestions about 
         how to use <span class="app">Scrobbular</span> can be found on the <a href="/howto">how-to page</a>.<p>
     </div>
@@ -25,7 +25,7 @@
         <input type="submit" id="secret-button" value="Change Secret">
     </form>
     <div id="about-secret" class="explanation">
-        <p class="highlight summary">Include this secret with every message you send to <span class="app">Scrobbular</span>.</p>
+        <p class="highlight summary">Include this secret with every HTTP message you send to <span class="app">Scrobbular</span>.</p>
         <p>You need to include this secret as the parameter <code>s</code> with every message you send to <span class="app">Scrobbular</span> so that only you can send updates to Last.fm</p>
     </div>
 </div>

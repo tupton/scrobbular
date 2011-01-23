@@ -6,14 +6,19 @@ import urllib
 urllib.getproxies_macosx_sysconf = lambda: {}
 import urllib2
 import xml.dom.minidom
+import yaml
 
 from LastfmSession import get_session_key, put_session_key, get_secret, put_secret, create_new_secret
+
+config_file = open('config.yaml')
+config = yaml.load(config_file)
+config_file.close()
 
 class LastfmApi(object):
     """An interface to the Last.fm API"""
 
-    API_KEY = "24ff1477a4127b410d1f0b660c3049ee"
-    API_SECRET = "3f5fd072347bce672b2f2e91a8ce3007"
+    API_KEY = config['lastfm']['api_key']
+    API_SECRET = config['lastfm']['api_secret']
 
     API_URL = "http://ws.audioscrobbler.com/2.0/"
     AUTH_URL = "http://www.last.fm/api/auth/"

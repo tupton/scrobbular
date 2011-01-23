@@ -1,2 +1,5 @@
 # Ignore compiled python objects
 *.pyc
+
+# Ignore specific config file
+config.yaml

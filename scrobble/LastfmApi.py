@@ -69,7 +69,6 @@ class LastfmApi(object):
         keys.sort()
         sort = [(k, params.get(k)) for k in keys]
         to_hash = "".join(["" + k + unicode(v) for k,v in sort])
-        print to_hash.encode('latin-1')
         to_hash = to_hash + self.API_SECRET
         md5 = hashlib.md5()
         md5.update(to_hash.encode('latin-1'))

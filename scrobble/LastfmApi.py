@@ -47,7 +47,7 @@ class LastfmApi(object):
     def _build_param_string(self, params):
         """Build a param string from the given dictionary of params"""
 
-        encoded = urllib.urlencode([(k, v) for k,v in params.iteritems()])
+        encoded = urllib.urlencode([(k, v.encode('latin-1')) for k,v in params.iteritems()])
         return encoded
 
     def _build_url(self, base, params, post=False):
@@ -68,10 +68,11 @@ class LastfmApi(object):
         keys = params.keys()
         keys.sort()
         sort = [(k, params.get(k)) for k in keys]
-        to_hash = "".join(["" + k + str(v) for k,v in sort])
+        to_hash = "".join(["" + k + unicode(v) for k,v in sort])
+        print to_hash.encode('latin-1')
         to_hash = to_hash + self.API_SECRET
         md5 = hashlib.md5()
-        md5.update(to_hash)
+        md5.update(to_hash.encode('latin-1'))
         return md5.hexdigest()
 
     def _handle_session_key_response(self, response):

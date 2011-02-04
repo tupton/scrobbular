@@ -11,6 +11,7 @@ class LastfmSession(db.Model):
     session_key = db.StringProperty(required=True)
     secret = db.StringProperty(required=True)
     date_created = db.DateTimeProperty(auto_now_add=True)
+    date_modified = db.DateTimeProperty(auto_now=True)
 
 def _get_session(user):
     """Get the session for a user"""

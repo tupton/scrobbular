@@ -12,7 +12,7 @@ application = webapp.WSGIApplication(
                                       ('/scrobble', pages.ScrobblePage),
                                       ('/user/secret', pages.ChangeSecretPage),
                                       ('/user/delete', pages.DeleteUserPage)],
-                                     debug=True)
+                                     debug=False)
 
 def main():
     run_wsgi_app(application)

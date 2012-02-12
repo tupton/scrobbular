@@ -2,18 +2,24 @@ $(function() {
     $('#confirm').hide();
 
     $('#delete').click(function() {
-        $(this).addClass('light');
-        $(this).removeClass('delete');
-        $(this).removeAttr('href');
+        var del = $(this);
+        del.addClass('light');
+        del.removeClass('delete');
+        del.removeAttr('href');
+
         $('#confirm').show();
+
         return false;
     });
 
     $('#cancel').click(function() {
-        $('#delete').removeClass('light');
-        $('#delete').addClass('delete');
-        $('#delete').attr('href', '#');
+        var del = $('#delete');
+        del.removeClass('light');
+        del.addClass('delete');
+        del.attr('href', '#');
+
         $('#confirm').hide();
+
         return false;
     });
 
